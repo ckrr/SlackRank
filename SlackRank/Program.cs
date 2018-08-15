@@ -11,7 +11,7 @@ namespace SlackRank
     {
         static void Main(string[] args)
         {
-            List<User> allUsers = UserReader.ReadUsers();
+            List<Message> allMessages = MessageHandler.getAllMessages();
         }
     }
 }

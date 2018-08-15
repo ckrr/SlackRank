@@ -44,7 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UserReader.cs" />
+    <Compile Include="MessageHandler.cs" />
+    <Compile Include="Reaction.cs" />
+    <Compile Include="Reply.cs" />
+    <Compile Include="PathConstants.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="JsonReader.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
