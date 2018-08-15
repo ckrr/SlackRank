@@ -1,0 +1,9 @@
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\bin\Debug\SlackRank.exe
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\bin\Debug\SlackRank.pdb
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\bin\Debug\Newtonsoft.Json.dll
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\bin\Debug\Newtonsoft.Json.xml
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\obj\Debug\SlackRank.csprojAssemblyReference.cache
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\obj\Debug\SlackRank.csproj.CoreCompileInputs.cache
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\obj\Debug\SlackRank.csproj.CopyComplete
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\obj\Debug\SlackRank.exe
+C:\Users\crech\Desktop\Programming\SlackRank\SlackRank\obj\Debug\SlackRank.pdb
