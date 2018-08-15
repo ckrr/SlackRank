@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdjacencyMatrix.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Reaction.cs" />
     <Compile Include="Reply.cs" />

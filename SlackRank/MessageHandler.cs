@@ -17,7 +17,6 @@ namespace SlackRank
             for (int i = 0; i < numChannelPaths; i++)
             {
                 string[] allChannelFiles = Directory.GetFiles(allChannelPaths[i]);
-                System.Console.WriteLine(allChannelPaths[i]);
                 int numFiles = allChannelFiles.Length;
                 for (int j = 0; j < numFiles; j++)
                 {
