@@ -96,6 +96,7 @@ namespace SlackRank
             for (int i = 0; i < adjacencyMatrix.numUsers; i++)
             {
                 weightedScores.Add(new Tuple<double, string>(scores[i].Item1 * weightFactor / (adjacencyMatrix.messagesPerUser[i] + Constants.MESSAGE_BASELINE), scores[i].Item2));
+                System.Console.WriteLine(scores[i].Item1 + " " + weightFactor + " " + (adjacencyMatrix.messagesPerUser[i] + Constants.MESSAGE_BASELINE));
             }
             double divideFactor = 0;
             for (int i=0; i<adjacencyMatrix.numUsers; i++)

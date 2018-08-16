@@ -137,9 +137,11 @@ namespace SlackRank
             numUsers = activeUsers.Count;
             List<List<int>> combinedMatrixNew = new List<List<int>>();
             List<User> allUsersNew = new List<User>();
+            List<int> messagesPerUserNew = new List<int>();
             for (int i=0; i<numUsers; i++)
             {
                 allUsersNew.Add(allUsers[activeUsers[i]]);
+                messagesPerUserNew.Add(messagesPerUser[activeUsers[i]]);
                 List<int> combinedRow = new List<int>();
                 for (int j=0; j<numUsers; j++)
                 {
@@ -149,6 +151,7 @@ namespace SlackRank
             }
             combinedMatrix = combinedMatrixNew;
             allUsers = allUsersNew;
+            messagesPerUser = messagesPerUserNew;
         }
     }
 }

@@ -16,6 +16,8 @@ namespace SlackRank
 
         public static int REPLY_WEIGHT_FACTOR = 0;
         public static double DAMPING_FACTOR = 0.85;
-        public static double MESSAGE_BASELINE = 10;
+        public static double MESSAGE_BASELINE = 1;
+
+        public static string SINGLE_CHANNEL = "";
     }
 }

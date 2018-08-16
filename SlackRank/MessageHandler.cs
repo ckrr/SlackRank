@@ -16,16 +16,19 @@ namespace SlackRank
             int numChannelPaths = allChannelPaths.Length;
             for (int i = 0; i < numChannelPaths; i++)
             {
-                string[] allChannelFiles = Directory.GetFiles(allChannelPaths[i]);
-                int numFiles = allChannelFiles.Length;
-                for (int j = 0; j < numFiles; j++)
+                if (Constants.SINGLE_CHANNEL == "" || allChannelPaths[i].IndexOf(Constants.SINGLE_CHANNEL) != -1)
                 {
-                    List<Message> allDayMessages = JsonReader.ReadMessages(allChannelFiles[j]);
-                    foreach (Message message in allDayMessages)
+                    string[] allChannelFiles = Directory.GetFiles(allChannelPaths[i]);
+                    int numFiles = allChannelFiles.Length;
+                    for (int j = 0; j < numFiles; j++)
                     {
-                        if (message.subtype == "")
+                        List<Message> allDayMessages = JsonReader.ReadMessages(allChannelFiles[j]);
+                        foreach (Message message in allDayMessages)
                         {
-                            allMessages.Add(message);
+                            if (message.subtype == "")
+                            {
+                                allMessages.Add(message);
+                            }
                         }
                     }
                 }
