@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjacencyMatrix.cs" />
+    <Compile Include="Profile.cs" />
+    <Compile Include="Evaluator.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Reaction.cs" />
     <Compile Include="Reply.cs" />

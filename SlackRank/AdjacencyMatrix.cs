@@ -14,6 +14,7 @@ namespace SlackRank
         private Hashtable usersToIndex;
         private List<List<int>> reactionMatrix;
         private List<List<int>> replyMatrix;
+        private List<int> messagesPerUser;
 
         public AdjacencyMatrix(List<User> inputAllUsers, List<Message> inputAllMessages)
         {
@@ -23,6 +24,7 @@ namespace SlackRank
             usersToIndex = new Hashtable();
             reactionMatrix = new List<List<int>>();
             replyMatrix = new List<List<int>>();
+            messagesPerUser = new List<int>();
             ConstructUsersToIndex();
             InitializeMatrices();
             FillMatrices();
@@ -38,6 +40,16 @@ namespace SlackRank
             return replyMatrix;
         }
 
+        public Hashtable GetUsersToIndex()
+        {
+            return usersToIndex;
+        }
+
+        public List<int> GetMessagesPerUser()
+        {
+            return messagesPerUser;
+        }
+
         private void ConstructUsersToIndex()
         {
             for (int i=0; i<numUsers; i++)
@@ -51,20 +63,15 @@ namespace SlackRank
             for (int i = 0; i < numUsers; i++)
             {
                 List<int> reactionRow = new List<int>();
-                for (int j = 0; j < numUsers; j++)
-                {
-                    reactionRow.Add(0);
-                }
-                reactionMatrix.Add(reactionRow);
-            }
-            for (int i = 0; i < numUsers; i++)
-            {
                 List<int> replyRow = new List<int>();
                 for (int j = 0; j < numUsers; j++)
                 {
+                    reactionRow.Add(0);
                     replyRow.Add(0);
                 }
+                reactionMatrix.Add(reactionRow);
                 replyMatrix.Add(replyRow);
+                messagesPerUser.Add(0);
             }
         }
 
@@ -75,6 +82,7 @@ namespace SlackRank
                 try
                 {
                     int senderId = (int)usersToIndex[message.user];
+                    messagesPerUser[senderId]++;
                     foreach (Reply reply in message.replies)
                     {
                         int replyId = (int)usersToIndex[reply.user];

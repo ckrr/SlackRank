@@ -9,10 +9,12 @@ namespace SlackRank
     {
         public string id;
         public string name;
+        public Profile profile;
         public User()
         {
             id = String.Empty;
             name = String.Empty;
+            profile = new Profile();
         }
     }
 }
