@@ -14,7 +14,6 @@ namespace SlackRank
             List<Message> allMessages = MessageHandler.GetAllMessages();
             List<User> allUsers = JsonReader.ReadUsers();
             AdjacencyMatrix adjacencyMatrix = new AdjacencyMatrix(allUsers, allMessages);
-            adjacencyMatrix.Debug();
             Evaluator evaluator = new Evaluator(adjacencyMatrix);
 
             List<Tuple<double, string>> usersByMessagePercentage = evaluator.CalcUsersByMessagePercentage();

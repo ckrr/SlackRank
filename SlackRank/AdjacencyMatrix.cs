@@ -30,6 +30,7 @@ namespace SlackRank
             ConstructUsersToIndex();
             InitializeMatrices();
             FillMatrices();
+            RemoveInactiveUsers();
         }
 
         public List<List<Tuple<int,double>>> GetWeightedAdjacencyList()
@@ -43,32 +44,20 @@ namespace SlackRank
             }
             for (int i=0; i<numUsers; i++)
             {
-                countActionsPerUser[i] = (double) reactionMatrix[i].Sum();
+                countActionsPerUser[i] = (double) combinedMatrix[i].Sum();
             }
             for (int i=0; i<numUsers; i++)
             {
                 for (int j=0; j<numUsers; j++)
                 {
-                    if (reactionMatrix[i][j] > 0)
+                    if (combinedMatrix[i][j] > 0)
                     {
-                        double weightedValue = ((double)reactionMatrix[i][j]) / countActionsPerUser[i];
+                        double weightedValue = ((double)combinedMatrix[i][j]) / countActionsPerUser[i];
                         weightedAdjacencyList[i].Add(new Tuple<int, double>(j, weightedValue));
                     }
                 }
             }
             return weightedAdjacencyList;
-        }
-
-        public void Debug()
-        {
-            int numReaction = 0;
-            for (int i=0; i<numUsers; i++)
-            {
-                for (int j=0; j<numUsers; j++)
-                {
-                    numReaction += reactionMatrix[i][j];
-                }
-            }
         }
 
         private void ConstructUsersToIndex()
@@ -133,6 +122,33 @@ namespace SlackRank
                     combinedMatrix[i][j] = Constants.REPLY_WEIGHT_FACTOR * replyMatrix[i][j] + reactionMatrix[i][j];
                 }
             }
+        }
+
+        private void RemoveInactiveUsers()
+        {
+            List<int> activeUsers = new List<int>();
+            for (int i=0; i<numUsers; i++)
+            {
+                if (combinedMatrix[i].Sum() > 0)
+                {
+                    activeUsers.Add(i);
+                }
+            }
+            numUsers = activeUsers.Count;
+            List<List<int>> combinedMatrixNew = new List<List<int>>();
+            List<User> allUsersNew = new List<User>();
+            for (int i=0; i<numUsers; i++)
+            {
+                allUsersNew.Add(allUsers[activeUsers[i]]);
+                List<int> combinedRow = new List<int>();
+                for (int j=0; j<numUsers; j++)
+                {
+                    combinedRow.Add(combinedMatrix[activeUsers[i]][activeUsers[j]]);
+                }
+                combinedMatrixNew.Add(combinedRow);
+            }
+            combinedMatrix = combinedMatrixNew;
+            allUsers = allUsersNew;
         }
     }
 }

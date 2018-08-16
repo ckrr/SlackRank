@@ -36,7 +36,7 @@ namespace SlackRank
                 double numActionsReceived = 0;
                 for (int j = 0; j < adjacencyMatrix.numUsers; j++)
                 {
-                    numActionsReceived += (double)adjacencyMatrix.reactionMatrix[j][i];
+                    numActionsReceived += (double)adjacencyMatrix.combinedMatrix[j][i];
                 }
                 rawActionRank.Add(new Tuple<double, string>(numActionsReceived, adjacencyMatrix.allUsers[i].name));
             }
@@ -92,11 +92,21 @@ namespace SlackRank
         {
             List<Tuple<double, string>> weightedScores = new List<Tuple<double, string>>();
             double weightFactor = ((double) (adjacencyMatrix.allMessages.Count)) / adjacencyMatrix.numUsers + Constants.MESSAGE_BASELINE;
+            List<Tuple<double, string>> dividedScores = new List<Tuple<double, string>>();
             for (int i = 0; i < adjacencyMatrix.numUsers; i++)
             {
                 weightedScores.Add(new Tuple<double, string>(scores[i].Item1 * weightFactor / (adjacencyMatrix.messagesPerUser[i] + Constants.MESSAGE_BASELINE), scores[i].Item2));
             }
-            return weightedScores;
+            double divideFactor = 0;
+            for (int i=0; i<adjacencyMatrix.numUsers; i++)
+            {
+                divideFactor += weightedScores[i].Item1;
+            }
+            for (int i=0; i<adjacencyMatrix.numUsers; i++)
+            {
+                dividedScores.Add(new Tuple<double, string>(100.0 * weightedScores[i].Item1 / divideFactor, weightedScores[i].Item2));
+            }
+            return dividedScores;
         }
     }
 }
