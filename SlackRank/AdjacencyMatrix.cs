@@ -8,13 +8,14 @@ namespace SlackRank
 {
     class AdjacencyMatrix
     {
-        private int numUsers;
-        private List<User> allUsers;
-        private List<Message> allMessages;
-        private Hashtable usersToIndex;
-        private List<List<int>> reactionMatrix;
-        private List<List<int>> replyMatrix;
-        private List<int> messagesPerUser;
+        public int numUsers;
+        public List<User> allUsers;
+        public List<Message> allMessages;
+        public Hashtable usersToIndex;
+        public List<List<int>> reactionMatrix;
+        public List<List<int>> replyMatrix;
+        public List<List<int>> combinedMatrix;
+        public List<int> messagesPerUser;
 
         public AdjacencyMatrix(List<User> inputAllUsers, List<Message> inputAllMessages)
         {
@@ -24,30 +25,50 @@ namespace SlackRank
             usersToIndex = new Hashtable();
             reactionMatrix = new List<List<int>>();
             replyMatrix = new List<List<int>>();
+            combinedMatrix = new List<List<int>>();
             messagesPerUser = new List<int>();
             ConstructUsersToIndex();
             InitializeMatrices();
             FillMatrices();
         }
 
-        public List<List<int>> GetReactionMatrix()
+        public List<List<Tuple<int,double>>> GetWeightedAdjacencyList()
         {
-            return reactionMatrix;
+            List<List<Tuple<int, double>>> weightedAdjacencyList = new List<List<Tuple<int, double>>>();
+            List<double> countActionsPerUser = new List<double>();
+            for (int i=0; i<numUsers; i++)
+            {
+                weightedAdjacencyList.Add(new List<Tuple<int, double>>());
+                countActionsPerUser.Add(0);
+            }
+            for (int i=0; i<numUsers; i++)
+            {
+                countActionsPerUser[i] = (double) reactionMatrix[i].Sum();
+            }
+            for (int i=0; i<numUsers; i++)
+            {
+                for (int j=0; j<numUsers; j++)
+                {
+                    if (reactionMatrix[i][j] > 0)
+                    {
+                        double weightedValue = ((double)reactionMatrix[i][j]) / countActionsPerUser[i];
+                        weightedAdjacencyList[i].Add(new Tuple<int, double>(j, weightedValue));
+                    }
+                }
+            }
+            return weightedAdjacencyList;
         }
 
-        public List<List<int>> GetReplyMatrix()
+        public void Debug()
         {
-            return replyMatrix;
-        }
-
-        public Hashtable GetUsersToIndex()
-        {
-            return usersToIndex;
-        }
-
-        public List<int> GetMessagesPerUser()
-        {
-            return messagesPerUser;
+            int numReaction = 0;
+            for (int i=0; i<numUsers; i++)
+            {
+                for (int j=0; j<numUsers; j++)
+                {
+                    numReaction += reactionMatrix[i][j];
+                }
+            }
         }
 
         private void ConstructUsersToIndex()
@@ -64,13 +85,16 @@ namespace SlackRank
             {
                 List<int> reactionRow = new List<int>();
                 List<int> replyRow = new List<int>();
+                List<int> combinedRow = new List<int>();
                 for (int j = 0; j < numUsers; j++)
                 {
                     reactionRow.Add(0);
                     replyRow.Add(0);
+                    combinedRow.Add(0);
                 }
                 reactionMatrix.Add(reactionRow);
                 replyMatrix.Add(replyRow);
+                combinedMatrix.Add(combinedRow);
                 messagesPerUser.Add(0);
             }
         }
@@ -100,6 +124,13 @@ namespace SlackRank
                 catch (Exception)
                 {
                     continue;
+                }
+            }
+            for (int i=0; i<numUsers; i++)
+            {
+                for (int j=0; j<numUsers; j++)
+                {
+                    combinedMatrix[i][j] = Constants.REPLY_WEIGHT_FACTOR * replyMatrix[i][j] + reactionMatrix[i][j];
                 }
             }
         }

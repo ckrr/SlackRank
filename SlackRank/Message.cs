@@ -17,10 +17,10 @@ namespace SlackRank
         public Message()
         {
             type = String.Empty;
-            type = String.Empty;
-            type = String.Empty;
-            type = String.Empty;
-            type = String.Empty;
+            subtype = String.Empty;
+            user = String.Empty;
+            text = String.Empty;
+            ts = String.Empty;
             replies = new List<Reply>();
             reactions = new List<Reaction>();
         }

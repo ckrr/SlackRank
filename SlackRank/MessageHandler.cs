@@ -9,10 +9,10 @@ namespace SlackRank
 {
     class MessageHandler
     {
-        public static List<Message> getAllMessages()
+        public static List<Message> GetAllMessages()
         {
             List<Message> allMessages = new List<Message>();
-            string[] allChannelPaths = Directory.GetDirectories(PathConstants.PATH);
+            string[] allChannelPaths = Directory.GetDirectories(Constants.PATH);
             int numChannelPaths = allChannelPaths.Length;
             for (int i = 0; i < numChannelPaths; i++)
             {
@@ -23,7 +23,7 @@ namespace SlackRank
                     List<Message> allDayMessages = JsonReader.ReadMessages(allChannelFiles[j]);
                     foreach (Message message in allDayMessages)
                     {
-                        if (message.subtype == null)
+                        if (message.subtype == "")
                         {
                             allMessages.Add(message);
                         }
